@@ -18,7 +18,7 @@ const credits = [
     badges: [
       { label: "Production", type: "production" },
       { label: "Songwriting", type: "songwriting" },
-      { label: "Mix & Master ", type: "mixmaster" },
+      { label: "Mix & Master", type: "mixmaster" },
     ],
     youtubeId: "uD6o1P4HlCg",
     links: [
@@ -69,7 +69,7 @@ const credits = [
     title: "Now That I",
     badges: [
       { label: "Production", type: "production" },
-      { label: "Mix & Master ", type: "mixmaster" },
+      { label: "Mix & Master", type: "mixmaster" },
     ],
     youtubeId: "KBzp7lRXxoo",
     links: [
@@ -121,7 +121,7 @@ const credits = [
     badges: [
       { label: "Production", type: "production" },
       { label: "Songwriting", type: "songwriting" },
-      { label: "Mix & Master ", type: "mixmaster" },
+      { label: "Mix & Master", type: "mixmaster" },
     ],
     youtubeId: "ShBe0JluokM",
     links: [
@@ -232,7 +232,7 @@ const credits = [
     title: "Cowboy Power",
     badges: [
       { label: "Production", type: "production" },
-      { label: "Mix & Master ", type: "mixmaster" },
+      { label: "Mix & Master", type: "mixmaster" },
     ],
     youtubeId: "UDaur9E3Bz8",
     links: [
@@ -247,7 +247,7 @@ const credits = [
     title: "In My Head",
     badges: [
       { label: "Production", type: "production" },
-      { label: "Mix & Master ", type: "mixmaster" },
+      { label: "Mix & Master", type: "mixmaster" },
     ],
     youtubeId: "XpLDtOZoDX8",
     links: [
@@ -262,7 +262,7 @@ const credits = [
     title: "Testify",
     badges: [
       { label: "Production", type: "production" },
-      { label: "Mix & Master ", type: "mixmaster" },
+      { label: "Mix & Master", type: "mixmaster" },
     ],
     youtubeId: "x0eKmyRaArU",
     links: [
@@ -277,7 +277,7 @@ const credits = [
     title: "How I Roll",
     badges: [
       { label: "Production", type: "production" },
-      { label: "Mix & Master ", type: "mixmaster" },
+      { label: "Mix & Master", type: "mixmaster" },
     ],
     youtubeId: "aNNOG3zdVKw",
     links: [
@@ -292,7 +292,7 @@ const credits = [
     title: "I'm Going Home",
     badges: [
       { label: "Production", type: "production" },
-      { label: "Mix & Master ", type: "mixmaster" },
+      { label: "Mix & Master", type: "mixmaster" },
     ],
     youtubeId: "e_eTM0Z2MSs",
     links: [
@@ -307,7 +307,7 @@ const credits = [
     title: "I'm Getting By",
     badges: [
       { label: "Production", type: "production" },
-      { label: "Mix & Master ", type: "mixmaster" },
+      { label: "Mix & Master", type: "mixmaster" },
     ],
     youtubeId: "Lca4CDpEDgo",
     links: [
@@ -322,7 +322,7 @@ const credits = [
     title: "Drop One Down",
     badges: [
       { label: "Production", type: "production" },
-      { label: "Mix & Master ", type: "mixmaster" },
+      { label: "Mix & Master", type: "mixmaster" },
     ],
     youtubeId: "HDjRgrvNUTo",
     links: [
@@ -337,7 +337,7 @@ const credits = [
     title: "One of a Kind",
     badges: [
       { label: "Production", type: "production" },
-      { label: "Mix & Master ", type: "mixmaster" },
+      { label: "Mix & Master", type: "mixmaster" },
     ],
     youtubeId: "qU8MN0fIKzw",
     links: [
@@ -352,7 +352,7 @@ const credits = [
     title: "Talk Is Cheap",
     badges: [
       { label: "Production", type: "production" },
-      { label: "Mix & Master ", type: "mixmaster" },
+      { label: "Mix & Master", type: "mixmaster" },
     ],
     youtubeId: "Reb-Gyrf4S0",
     links: [
@@ -367,7 +367,7 @@ const credits = [
     title: "Never Forget",
     badges: [
       { label: "Production", type: "production" },
-      { label: "Mix & Master ", type: "mixmaster" },
+      { label: "Mix & Master", type: "mixmaster" },
     ],
     youtubeId: "RENGAqCmAus",
     links: [
@@ -382,7 +382,7 @@ const credits = [
     title: "Feel Good",
     badges: [
       { label: "Production", type: "production" },
-      { label: "Mix & Master ", type: "mixmaster" },
+      { label: "Mix & Master", type: "mixmaster" },
     ],
     youtubeId: "7hpH7bUwVvU",
     links: [
@@ -397,7 +397,7 @@ const credits = [
     title: "Blueprint",
     badges: [
       { label: "Production", type: "production" },
-      { label: "Mix & Master ", type: "mixmaster" },
+      { label: "Mix & Master", type: "mixmaster" },
     ],
     youtubeId: "D1kBodYnLxA",
     links: [
@@ -412,7 +412,7 @@ const credits = [
     title: "Can't Complain",
     badges: [
       { label: "Production", type: "production" },
-      { label: "Mix & Master ", type: "mixmaster" },
+      { label: "Mix & Master", type: "mixmaster" },
     ],
     youtubeId: "nl7fL680EZc",
     links: [
@@ -475,178 +475,183 @@ const credits = [
 const creditsGrid = document.querySelector("#creditsGrid");
 const filterButtons = document.querySelectorAll(".filter-btn");
 const year = document.querySelector("#year");
+let activeIframe = null;
 
 if (year) {
   year.textContent = new Date().getFullYear();
 }
 
-function createEmbed(credit) {
-  if (credit.youtubeId) {
-    return `
-      <iframe
-  class="youtube-player"
-  id="player-${credit.youtubeId}"
-  loading="lazy"
-  src="https://www.youtube.com/embed/${credit.youtubeId}?enablejsapi=1"
-  title="${credit.artist} - ${credit.title}"
-  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-  allowfullscreen>
-</iframe>
-    `;
+function createElement(tag, className, text) {
+  const element = document.createElement(tag);
+
+  if (className) {
+    element.className = className;
   }
 
-  return `
-    <div class="credit-placeholder">
-      <img src="assets/images/west-west-vol-1.jpg" alt="${credit.title}" />
-    </div>
-  `;
+  if (text) {
+    element.textContent = text;
+  }
+
+  return element;
+}
+
+function createYoutubeTrigger(credit) {
+  const button = createElement("button", "youtube-embed-trigger");
+  const thumbnailUrl = `https://img.youtube.com/vi/${credit.youtubeId}/hqdefault.jpg`;
+
+  button.type = "button";
+  button.setAttribute("aria-label", `Play ${credit.artist} - ${credit.title}`);
+  button.style.setProperty("--thumbnail", `url('${thumbnailUrl}')`);
+
+  const playIcon = createElement("span", "youtube-play-icon", "▶");
+  playIcon.setAttribute("aria-hidden", "true");
+  button.append(playIcon);
+
+  button.addEventListener("click", () => {
+    const iframe = document.createElement("iframe");
+    iframe.className = "youtube-player";
+    iframe.loading = "lazy";
+    iframe.src = `https://www.youtube-nocookie.com/embed/${credit.youtubeId}?autoplay=1&rel=0`;
+    iframe.title = `${credit.artist} - ${credit.title}`;
+    iframe.allow =
+      "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share";
+    iframe.allowFullscreen = true;
+
+    if (activeIframe && activeIframe !== iframe) {
+      activeIframe.replaceWith(
+        createYoutubeTrigger(activeIframe.__creditData),
+      );
+    }
+
+    iframe.__creditData = credit;
+    activeIframe = iframe;
+    button.replaceWith(iframe);
+  });
+
+  return button;
+}
+
+function createMedia(credit) {
+  const media = createElement("div", "credit-media");
+
+  if (credit.youtubeId) {
+    media.append(createYoutubeTrigger(credit));
+    return media;
+  }
+
+  const placeholder = createElement("div", "credit-placeholder");
+  const image = document.createElement("img");
+  image.src = "assets/images/west-west-vol-1.jpg";
+  image.alt = credit.title;
+  image.loading = "lazy";
+  image.width = 1200;
+  image.height = 1200;
+  placeholder.append(image);
+  media.append(placeholder);
+
+  return media;
 }
 
 function createBadges(credit) {
-  if (!credit.badges || credit.badges.length === 0) {
-    return "";
-  }
+  const wrapper = createElement("div", "credit-meta");
 
-  return `
-    <div class="credit-meta">
-      ${credit.badges
-        .map(
-          (badge) => `
-            <span class="credit-badge credit-badge-${badge.type}">
-              ${badge.label}
-            </span>
-          `,
-        )
-        .join("")}
-    </div>
-  `;
+  credit.badges?.forEach((badge) => {
+    const badgeEl = createElement(
+      "span",
+      `credit-badge credit-badge-${badge.type}`,
+      badge.label.trim(),
+    );
+    wrapper.append(badgeEl);
+  });
+
+  return wrapper;
 }
 
 function createLinks(credit) {
-  if (!credit.links || credit.links.length === 0) {
-    return "";
-  }
+  const wrapper = createElement("div", "credit-links");
 
-  return `
-    <div class="credit-links">
-      ${credit.links
-        .map(
-          (link) => `
-            <a href="${link.url}" target="_blank" rel="noopener noreferrer">
-              ${link.label}
-            </a>
-          `,
-        )
-        .join("")}
-    </div>
-  `;
-}
-
-function renderCredits(filter = "all") {
-  const filteredCredits =
-    filter === "all"
-      ? credits
-      : credits.filter(
-          (credit) =>
-            credit.badges &&
-            credit.badges.some((badge) => badge.type === filter),
-        );
-
-  creditsGrid.innerHTML = filteredCredits
-    .map(
-      (credit) => `
-        <article class="credit-card">
-          <div class="credit-media">
-            ${createEmbed(credit)}
-          </div>
-
-          <div class="credit-content">
-            ${createBadges(credit)}
-
-            <h4>${credit.artist}</h4>
-            <h3>${credit.title}</h3>            
-
-            ${createLinks(credit)}
-          </div>
-        </article>
-      `,
-    )
-    .join("");
-
-  if (window.YT && YT.Player) {
-    setupYouTubePlayers();
-  }
-}
-
-filterButtons.forEach((button) => {
-  button.addEventListener("click", () => {
-    const selectedFilter = button.dataset.filter;
-
-    filterButtons.forEach((btn) => btn.classList.remove("active"));
-    button.classList.add("active");
-
-    renderCredits(selectedFilter);
+  credit.links?.forEach((link) => {
+    const anchor = createElement("a", null, link.label);
+    anchor.href = link.url;
+    anchor.target = "_blank";
+    anchor.rel = "noopener noreferrer";
+    wrapper.append(anchor);
   });
-});
 
-renderCredits();
-
-let youtubePlayers = [];
-
-function onYouTubeIframeAPIReady() {
-  setupYouTubePlayers();
+  return wrapper;
 }
 
-function setupYouTubePlayers() {
-  youtubePlayers = [];
+function createCreditCard(credit) {
+  const article = createElement("article", "credit-card reveal");
+  const content = createElement("div", "credit-content");
 
-  const iframes = document.querySelectorAll(".youtube-player");
+  const artist = createElement("h4", null, credit.artist);
+  const title = createElement("h3", "credit-title", credit.title);
 
-  iframes.forEach((iframe) => {
-    const player = new YT.Player(iframe.id, {
-      events: {
-        onStateChange: function (event) {
-          if (event.data === YT.PlayerState.PLAYING) {
-            pauseOtherPlayers(player);
+  article.append(createMedia(credit));
+  content.append(createBadges(credit), artist, title, createLinks(credit));
+  article.append(content);
+
+  return article;
+}
+
+function getFilteredCredits(filter = "all") {
+  if (filter === "all") {
+    return credits;
+  }
+
+  return credits.filter((credit) =>
+    credit.badges?.some((badge) => badge.type === filter),
+  );
+}
+
+function revealElement(element) {
+  element.classList.add("visible");
+}
+
+const revealObserver = "IntersectionObserver" in window
+  ? new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            revealElement(entry.target);
+            revealObserver.unobserve(entry.target);
           }
-        },
+        });
       },
-    });
+      { threshold: 0.12 },
+    )
+  : null;
 
-    youtubePlayers.push(player);
-  });
-}
-
-function pauseOtherPlayers(currentPlayer) {
-  youtubePlayers.forEach((player) => {
-    if (player !== currentPlayer && typeof player.pauseVideo === "function") {
-      player.pauseVideo();
+function observeRevealElements(scope = document) {
+  scope.querySelectorAll(".reveal").forEach((element) => {
+    if (revealObserver) {
+      revealObserver.observe(element);
+    } else {
+      revealElement(element);
     }
   });
 }
 
-const revealElements = document.querySelectorAll(
-  ".section-heading, .credit-card, .about-card, .site-footer",
-);
+function renderCredits(filter = "all") {
+  if (!creditsGrid) return;
 
-revealElements.forEach((element) => {
-  element.classList.add("reveal");
+  activeIframe = null;
+  creditsGrid.replaceChildren(...getFilteredCredits(filter).map(createCreditCard));
+  observeRevealElements(creditsGrid);
+}
+
+filterButtons.forEach((button) => {
+  button.addEventListener("click", () => {
+    filterButtons.forEach((btn) => btn.classList.remove("active"));
+    button.classList.add("active");
+    renderCredits(button.dataset.filter);
+  });
 });
 
-const revealObserver = new IntersectionObserver(
-  (entries) => {
-    entries.forEach((entry) => {
-      if (entry.isIntersecting) {
-        entry.target.classList.add("visible");
-        revealObserver.unobserve(entry.target);
-      }
-    });
-  },
-  {
-    threshold: 0.12,
-  },
-);
+document
+  .querySelectorAll(".section-heading, .about-card, .site-footer")
+  .forEach((element) => element.classList.add("reveal"));
 
-revealElements.forEach((element) => {
-  revealObserver.observe(element);
-});
+observeRevealElements();
+renderCredits();
