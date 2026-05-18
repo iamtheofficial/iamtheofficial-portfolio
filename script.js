@@ -425,7 +425,7 @@ const credits = [
   {
     artist: "Jordeesauce",
     title: "Hating on Me feat. Iamtheofficial",
-    badges: [{ label: "Production", type: "production" }],
+    badges: [{ label: "Songwriting", type: "songwriting" }],
     youtubeId: "rvx5haMt3R8",
     links: [
       {
