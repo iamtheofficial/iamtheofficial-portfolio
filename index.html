@@ -8,7 +8,7 @@
       content="Music production portfolio for Reuben James, professionally known as Iamtheofficial."
     />
     <title>Iamtheofficial | Portfolio</title>
-    <link rel="icon" type="image/x-icon" href="assets/images/favicon.ico">
+    <link rel="icon" type="image/x-icon" href="assets/images/favicon.ico" />
     <link
       rel="preload"
       href="assets/images/iamtheofficial-logo.png"
@@ -38,15 +38,43 @@
             height="804"
             fetchpriority="high"
           />
-          <p class="hero-copy">
-            Production, beat making, artist collaboration, and genre-blending
-            sound by Reuben James, professionally known as Iamtheofficial.
-          </p>
           <div class="hero-actions">
             <a class="button primary" href="#credits">My Work</a>
             <a class="button secondary" href="vault.html">The Vault</a>
           </div>
         </div>
+      </section>
+
+      <section id="spotlight" class="section-padding spotlight-section">
+        <div class="section-heading spotlight-heading">
+          <h2>Featured Works</h2>
+        </div>
+
+        <div class="spotlight-controls">
+          <button
+            class="spotlight-btn"
+            type="button"
+            data-direction="prev"
+            aria-label="Previous spotlight item"
+          >
+            ←
+          </button>
+
+          <button
+            class="spotlight-btn"
+            type="button"
+            data-direction="next"
+            aria-label="Next spotlight item"
+          >
+            →
+          </button>
+        </div>
+
+        <div
+          id="spotlightCarousel"
+          class="spotlight-carousel"
+          aria-live="polite"
+        ></div>
       </section>
 
       <section id="credits" class="section-padding credits-section">

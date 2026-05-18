@@ -352,7 +352,7 @@ h3 { font-size: clamp(1.35rem, 2.3vw, 2rem); }
 }
 
 @media (max-width: 768px) {
-  .about-card h2,
+    .about-card h2,
   .about-card h1 {
     font-size: clamp(2rem, 11vw, 3.8rem);
   }
@@ -363,6 +363,9 @@ h3 { font-size: clamp(1.35rem, 2.3vw, 2rem); }
   .nav { width: 100%; justify-content: space-between; }
   .credits-grid, .about-section { grid-template-columns: 1fr; }
   .section-padding { padding-top: 74px; padding-bottom: 74px; }
+  .about-card p {
+    text-align: center;
+  }
 }
 
 @media (max-width: 520px) {
@@ -877,5 +880,153 @@ h3 { font-size: clamp(1.35rem, 2.3vw, 2rem); }
 .track-changing {
   opacity: 0;
   transform: translateY(8px);
+}
+
+/* Spotlight Deployment */ 
+
+.spotlight-section {
+  border-bottom: 1px solid var(--line);
+}
+
+.spotlight-heading {
+  text-align: center;
+}
+
+.spotlight-controls {
+  width: min(var(--max), calc(100% - clamp(36px, 8vw, 112px)));
+  margin: 2rem auto 1.5rem;
+  display: flex;
+  justify-content: center;
+  gap: 0.75rem;
+}
+
+.spotlight-btn {
+  cursor: pointer;
+  width: 46px;
+  height: 46px;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  color: var(--text);
+  background: transparent;
+  border: 1px solid var(--line-strong);
+  border-radius: 999px;
+
+  font-size: 1.1rem;
+  transition: transform 0.2s ease, background 0.2s ease, color 0.2s ease;
+}
+
+.spotlight-btn:hover {
+  color: #000000;
+  background: #ffffff;
+  transform: translateY(-2px);
+}
+
+.spotlight-carousel {
+  width: min(var(--max), calc(100% - clamp(36px, 8vw, 112px)));
+  margin: 0 auto;
+  min-height: 620px;
+
+  position: relative;
+  overflow: hidden;
+  perspective: 1200px;
+}
+
+.spotlight-slide {
+  position: absolute;
+  top: 0;
+  left: 50%;
+
+  width: min(560px, 100%);
+  min-width: 0;
+
+  opacity: 0;
+  pointer-events: none;
+
+  transition:
+    transform 0.55s ease,
+    opacity 0.55s ease,
+    filter 0.55s ease;
+}
+
+.spotlight-slide.is-active {
+  transform: translateX(-50%) scale(1);
+  opacity: 1;
+  filter: blur(0);
+  z-index: 3;
+  pointer-events: auto;
+}
+
+.spotlight-slide.is-prev {
+  transform: translateX(-105%) scale(0.86);
+  opacity: 0.38;
+  filter: blur(3px) grayscale(1);
+  z-index: 2;
+  pointer-events: auto;
+}
+
+.spotlight-slide.is-next {
+  transform: translateX(5%) scale(0.86);
+  opacity: 0.38;
+  filter: blur(3px) grayscale(1);
+  z-index: 2;
+  pointer-events: auto;
+}
+
+.spotlight-slide.is-hidden {
+  transform: translateX(-50%) scale(0.7);
+  opacity: 0;
+  filter: blur(8px);
+  z-index: 1;
+}
+
+@media (max-width: 750px) {
+  .spotlight-carousel {
+    min-height: 600px;
+  }
+
+  .spotlight-slide {
+    width: 100%;
+  }
+
+  .spotlight-slide.is-active {
+    transform: translateX(-50%) scale(1);
+  }
+
+  .spotlight-slide.is-prev {
+    transform: translateX(-120%) scale(0.82);
+    opacity: 0.18;
+    filter: blur(4px) grayscale(1);
+  }
+
+  .spotlight-slide.is-next {
+    transform: translateX(20%) scale(0.82);
+    opacity: 0.18;
+    filter: blur(4px) grayscale(1);
+  }
+}
+
+.spotlight-slide.is-active .credit-card,
+.spotlight-slide.is-active {
+  cursor: default;
+}
+
+.spotlight-slide.is-prev,
+.spotlight-slide.is-next {
+  cursor: pointer;
+}
+
+/* Spotlight-specific hover override */
+.spotlight-carousel .credit-card:hover {
+  opacity: 1;
+  background: var(--panel);
+  border-color: var(--line);
+}
+
+.spotlight-slide.is-active:hover {
+  opacity: 1;
+  filter: blur(0);
 }
 

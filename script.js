@@ -138,7 +138,7 @@ const credits = [
     youtubeId: "tC3E9Q_4tgM",
     links: [
       {
-        label: "Apple Music",
+        label: "Listen",
         url: "https://music.apple.com/us/song/like-me-feat-eric-bellinger/1182668302",
       },
     ],
@@ -473,6 +473,8 @@ const credits = [
 ];
 
 const creditsGrid = document.querySelector("#creditsGrid");
+const spotlightCarousel = document.querySelector("#spotlightCarousel");
+const spotlightButtons = document.querySelectorAll(".spotlight-btn");
 const filterButtons = document.querySelectorAll(".filter-btn");
 const year = document.querySelector("#year");
 let activeIframe = null;
@@ -518,9 +520,7 @@ function createYoutubeTrigger(credit) {
     iframe.allowFullscreen = true;
 
     if (activeIframe && activeIframe !== iframe) {
-      activeIframe.replaceWith(
-        createYoutubeTrigger(activeIframe.__creditData),
-      );
+      activeIframe.replaceWith(createYoutubeTrigger(activeIframe.__creditData));
     }
 
     iframe.__creditData = credit;
@@ -609,19 +609,20 @@ function revealElement(element) {
   element.classList.add("visible");
 }
 
-const revealObserver = "IntersectionObserver" in window
-  ? new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            revealElement(entry.target);
-            revealObserver.unobserve(entry.target);
-          }
-        });
-      },
-      { threshold: 0.12 },
-    )
-  : null;
+const revealObserver =
+  "IntersectionObserver" in window
+    ? new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              revealElement(entry.target);
+              revealObserver.unobserve(entry.target);
+            }
+          });
+        },
+        { threshold: 0.12 },
+      )
+    : null;
 
 function observeRevealElements(scope = document) {
   scope.querySelectorAll(".reveal").forEach((element) => {
@@ -633,11 +634,23 @@ function observeRevealElements(scope = document) {
   });
 }
 
+function renderSpotlight() {
+  if (!spotlightCarousel) return;
+
+  spotlightCarousel.replaceChildren(
+    ...getSpotlightCredits().map(createCreditCard),
+  );
+
+  observeRevealElements(spotlightCarousel);
+}
+
 function renderCredits(filter = "all") {
   if (!creditsGrid) return;
 
   activeIframe = null;
-  creditsGrid.replaceChildren(...getFilteredCredits(filter).map(createCreditCard));
+  creditsGrid.replaceChildren(
+    ...getFilteredCredits(filter).map(createCreditCard),
+  );
   observeRevealElements(creditsGrid);
 }
 
@@ -649,9 +662,113 @@ filterButtons.forEach((button) => {
   });
 });
 
+const spotlightItems = [
+  { artist: "Jaro Local", title: "Kativa" },
+  { artist: "Uncle Is", title: "Tender" },
+  { artist: "Uncle Is", title: "Now That I" },
+  { artist: "Roann", title: "Give You Everything" },
+];
+
+let spotlightIndex = 0;
+
+function getSpotlightCredits() {
+  return spotlightItems
+    .map((item) =>
+      credits.find(
+        (credit) =>
+          credit.artist.toLowerCase() === item.artist.toLowerCase() &&
+          credit.title.toLowerCase() === item.title.toLowerCase(),
+      ),
+    )
+    .filter(Boolean);
+}
+
+function getCarouselOffset(index, activeIndex, total) {
+  let offset = index - activeIndex;
+
+  if (offset > total / 2) {
+    offset -= total;
+  }
+
+  if (offset < -total / 2) {
+    offset += total;
+  }
+
+  return offset;
+}
+
+function updateSpotlightCarousel() {
+  if (!spotlightCarousel) return;
+
+  const slides = spotlightCarousel.querySelectorAll(".spotlight-slide");
+  const total = slides.length;
+
+  slides.forEach((slide, index) => {
+    const offset = getCarouselOffset(index, spotlightIndex, total);
+
+    slide.classList.remove("is-active", "is-prev", "is-next", "is-hidden");
+
+    if (offset === 0) {
+      slide.classList.add("is-active");
+    } else if (offset === -1) {
+      slide.classList.add("is-prev");
+    } else if (offset === 1) {
+      slide.classList.add("is-next");
+    } else {
+      slide.classList.add("is-hidden");
+    }
+  });
+}
+
+function renderSpotlight() {
+  if (!spotlightCarousel) return;
+
+  const spotlightCredits = getSpotlightCredits();
+
+  spotlightCarousel.innerHTML = "";
+
+  spotlightCredits.forEach((credit, index) => {
+    const card = createCreditCard(credit);
+
+    card.classList.add("spotlight-slide");
+    card.dataset.spotlightIndex = index;
+
+    card.addEventListener("click", () => {
+      spotlightIndex = index;
+      updateSpotlightCarousel();
+    });
+
+    spotlightCarousel.appendChild(card);
+  });
+
+  updateSpotlightCarousel();
+  observeRevealElements(spotlightCarousel);
+}
+
+function moveSpotlight(direction) {
+  const total = getSpotlightCredits().length;
+
+  if (direction === "next") {
+    spotlightIndex = (spotlightIndex + 1) % total;
+  }
+
+  if (direction === "prev") {
+    spotlightIndex = (spotlightIndex - 1 + total) % total;
+  }
+
+  updateSpotlightCarousel();
+}
+
+spotlightButtons.forEach((button) => {
+  button.addEventListener("click", () => {
+    moveSpotlight(button.dataset.direction);
+  });
+});
+
 document
   .querySelectorAll(".section-heading, .about-card, .site-footer")
   .forEach((element) => element.classList.add("reveal"));
 
 observeRevealElements();
+renderSpotlight();
 renderCredits();
