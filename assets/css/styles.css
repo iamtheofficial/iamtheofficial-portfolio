@@ -1008,6 +1008,13 @@ h3 { font-size: clamp(1.35rem, 2.3vw, 2rem); }
   }
 }
 
+
+@media (max-width: 550px) {
+  .spotlight-carousel {
+    min-height: 500px;
+  } 
+}
+
 .spotlight-slide.is-active .credit-card,
 .spotlight-slide.is-active {
   cursor: default;
